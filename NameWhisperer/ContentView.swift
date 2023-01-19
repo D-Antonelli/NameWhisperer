@@ -9,17 +9,25 @@ import SwiftUI
 import PhotosUI
 
 struct ContentView: View {
+    @State var users: [User] = []
     @State var selectedItem: PhotosPickerItem?
-    @State var data: Data?
     
     var body: some View {
         NavigationView {
             List {
-                if let data = data, let uiImage = UIImage(data: data) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFit()
+                ForEach(users, id: \.self) { user in
+                    NavigationLink {
+                        user.imageView
+                            .resizable()
+                            .scaledToFit()
+                            .navigationBarTitleDisplayMode(.inline)
+                            .navigationTitle("\(user.name)")
+                    } label: {
+                        Text("\(user.name)")
+                    }
+                    
                 }
+                
             }
             .navigationTitle("Photos")
             .toolbar {
@@ -27,32 +35,32 @@ struct ContentView: View {
                     Text("Pick photo")
                 }
             }
-            
-        }
-        .onChange(of: selectedItem) { newValue in
-            guard let item = selectedItem else {
-                return
-            }
-            
-            item.loadTransferable(type: Data.self) {
-                result in
-                switch result {
-                case .success(let data):
-                    if let data = data {
-                        self.data = data
-                    } else {
-                        print("data is nil")
-                    }
-                    
-                case .failure(let failure):
-                    fatalError("\(failure)")
+            .onChange(of: selectedItem) { newValue in
+                guard let item = selectedItem else {
+                    return
+                }
                 
+                item.loadTransferable(type: Data.self) {
+                    result in
+                    switch result {
+                    case .success(let data):
+                        if let data = data, let uiImage = UIImage(data: data) {
+                            users.append(User(name: "username", uiImage: uiImage))
+                        } else {
+                            print("data is nil")
+                        }
+                        
+                    case .failure(let failure):
+                        fatalError("\(failure)")
+                        
+                    }
                 }
             }
         }
-    }
         
-    
+        
+        
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

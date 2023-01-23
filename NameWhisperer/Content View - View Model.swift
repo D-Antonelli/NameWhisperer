@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import PhotosUI
+import SwiftUI
 
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
         @Published var users: [User] = []
+        @Published var selectedItem: PhotosPickerItem?
     }
 }

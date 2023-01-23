@@ -10,7 +10,6 @@ import PhotosUI
 
 struct ContentView: View {
     @StateObject var viewModel = ViewModel()
-    @State private var selectedItem: PhotosPickerItem?
     
     var body: some View {
         NavigationView {
@@ -32,12 +31,12 @@ struct ContentView: View {
 
             .navigationTitle("Photos")
             .toolbar {
-                PhotosPicker(selection: $selectedItem, matching: .images) {
+                PhotosPicker(selection: $viewModel.selectedItem, matching: .images) {
                     Text("Pick photo")
                 }
             }
-            .onChange(of: selectedItem) { newValue in
-                guard let item = selectedItem else {
+            .onChange(of: viewModel.selectedItem) { newValue in
+                guard let item = viewModel.selectedItem else {
                     return
                 }
                 

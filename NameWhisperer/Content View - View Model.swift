@@ -15,13 +15,10 @@ extension ContentView {
         @Published var selectedItem: PhotosPickerItem?
         
         func loadTransferable() -> Void {
-            guard let imageSelection = self.selectedItem else {
-                return
-            }
+            guard let imageSelection = self.selectedItem else { return }
             
             imageSelection.loadTransferable(type: Data.self) { result in
                 DispatchQueue.main.async {
-                    guard imageSelection == self.selectedItem else { return }
                     switch result {
                     case .success(let data):
                         if let data = data {

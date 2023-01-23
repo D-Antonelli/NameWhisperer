@@ -11,6 +11,8 @@ import PhotosUI
 struct ContentView: View {
     @StateObject var viewModel = ViewModel()
     
+    // TODO: ENABLE IMAGE NAME EDIT
+    
     var body: some View {
         NavigationView {
             List {
@@ -37,7 +39,6 @@ struct ContentView: View {
             }
             .onChange(of: viewModel.selectedItem) { newValue in
                 viewModel.loadTransferable()
-                
             }
             
         }

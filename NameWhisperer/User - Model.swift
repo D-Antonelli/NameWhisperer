@@ -11,9 +11,18 @@ import SwiftUI
 struct User: Hashable {
     let id = UUID()
     let name: String
-    let uiImage: UIImage
+    let image: UserImage
+}
+
+
+struct UserImage: Hashable {
+    let data: Data
     
-    var imageView: Image {
+    var view: Image {
+        let uiImage = UIImage(data: data) ?? UIImage()
         return Image(uiImage: uiImage)
     }
 }
+
+
+

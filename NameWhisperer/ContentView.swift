@@ -17,7 +17,7 @@ struct ContentView: View {
             List {
                 ForEach(users, id: \.self) { user in
                     NavigationLink {
-                        user.imageView
+                        user.image.view
                             .resizable()
                             .scaledToFit()
                             .navigationBarTitleDisplayMode(.inline)
@@ -44,8 +44,8 @@ struct ContentView: View {
                     result in
                     switch result {
                     case .success(let data):
-                        if let data = data, let uiImage = UIImage(data: data) {
-                            users.append(User(name: "username", uiImage: uiImage))
+                        if let data = data {
+                            users.append(User(name: "username", image: UserImage(data: data)))
                         } else {
                             print("data is nil")
                         }

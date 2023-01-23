@@ -13,5 +13,27 @@ extension ContentView {
     @MainActor class ViewModel: ObservableObject {
         @Published var users: [User] = []
         @Published var selectedItem: PhotosPickerItem?
+        
+        func loadTransferable() -> Void {
+            guard let imageSelection = self.selectedItem else {
+                return
+            }
+            
+            imageSelection.loadTransferable(type: Data.self) { result in
+                DispatchQueue.main.async {
+                    guard imageSelection == self.selectedItem else { return }
+                    switch result {
+                    case .success(let data):
+                        if let data = data {
+                            self.users.append(User(name: "New user", photo: UserImage(data: data)))
+                        } else {
+                            print("data is nil")
+                        }
+                    case .failure(let failure):
+                        fatalError("\(failure)")
+                    }
+                }
+            }
+        }
     }
 }

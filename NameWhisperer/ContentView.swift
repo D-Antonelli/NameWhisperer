@@ -26,9 +26,9 @@ struct ContentView: View {
                     }
                     
                 }
-    
+                
             }
-
+            
             .navigationTitle("Photos")
             .toolbar {
                 PhotosPicker(selection: $viewModel.selectedItem, matching: .images) {
@@ -36,29 +36,12 @@ struct ContentView: View {
                 }
             }
             .onChange(of: viewModel.selectedItem) { newValue in
-                guard let item = viewModel.selectedItem else {
-                    return
-                }
+                viewModel.loadTransferable()
                 
-                item.loadTransferable(type: Data.self) {
-                    result in
-                    switch result {
-                    case .success(let data):
-                        if let data = data {
-                            viewModel.users.append(User(name: "New user", photo: UserImage(data: data)))
-                        } else {
-                            print("data is nil")
-                        }
-                        
-                    case .failure(let failure):
-                        fatalError("\(failure)")
-                        
-                    }
-                }
             }
             
         }
-
+        
         
     }
 }

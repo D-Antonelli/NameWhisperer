@@ -11,7 +11,7 @@ import SwiftUI
 struct User: Hashable {
     let id = UUID()
     let name: String
-    let image: UserImage
+    let photo: UserImage
 }
 
 

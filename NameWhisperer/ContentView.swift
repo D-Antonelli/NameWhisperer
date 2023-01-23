@@ -9,15 +9,15 @@ import SwiftUI
 import PhotosUI
 
 struct ContentView: View {
-    @State var users: [User] = []
-    @State var selectedItem: PhotosPickerItem?
+    @StateObject var viewModel = ViewModel()
+    @State private var selectedItem: PhotosPickerItem?
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(users, id: \.self) { user in
+                ForEach(viewModel.users, id: \.self) { user in
                     NavigationLink {
-                        user.image.view
+                        user.photo.view
                             .resizable()
                             .scaledToFit()
                             .navigationBarTitleDisplayMode(.inline)
@@ -27,8 +27,9 @@ struct ContentView: View {
                     }
                     
                 }
-                
+    
             }
+
             .navigationTitle("Photos")
             .toolbar {
                 PhotosPicker(selection: $selectedItem, matching: .images) {
@@ -45,7 +46,7 @@ struct ContentView: View {
                     switch result {
                     case .success(let data):
                         if let data = data {
-                            users.append(User(name: "username", image: UserImage(data: data)))
+                            viewModel.users.append(User(name: "New user", photo: UserImage(data: data)))
                         } else {
                             print("data is nil")
                         }
@@ -56,9 +57,9 @@ struct ContentView: View {
                     }
                 }
             }
+            
         }
-        
-        
+
         
     }
 }
@@ -68,3 +69,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+

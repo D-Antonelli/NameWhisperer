@@ -40,6 +40,16 @@ struct ContentView: View {
             .onChange(of: viewModel.selectedItem) { newValue in
                 viewModel.loadTransferable()
             }
+            .onChange(of: viewModel.users) { newValue in
+                guard let lastAdded = viewModel.users.popLast() else {
+                    return
+                }
+                
+                let lastAddedWithNameUpdate = User(name: "new name", photo: lastAdded.photo)
+                
+                viewModel.users.append(lastAddedWithNameUpdate)
+                
+            }
             
         }
         

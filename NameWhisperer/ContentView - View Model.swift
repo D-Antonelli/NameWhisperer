@@ -11,8 +11,26 @@ import SwiftUI
 
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
-        @Published var users: [User] = []
+        @Published private(set) var users: [User] = []
         @Published var selectedItem: PhotosPickerItem?
+        
+        
+        func renameLastItemWith(name: String) {
+            guard let last = popLast() else { return }
+            
+            let lastAddedWithNameUpdate = User(name: name, photo: last.photo)
+            
+            append(user: lastAddedWithNameUpdate)
+        }
+        
+        func append(user: User) {
+            self.users.append(user)
+            
+        }
+        
+        func popLast() -> User? {
+            return users.popLast() ?? nil
+        }
         
         func loadTransferable() -> Void {
             guard let imageSelection = self.selectedItem else { return }

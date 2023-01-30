@@ -9,7 +9,7 @@ import Foundation
 import PhotosUI
 import SwiftUI
 
-extension ContentView {
+extension UserListView {
     @MainActor class ViewModel: ObservableObject {
         @Published private(set) var users: [User] = []
         @Published var selectedItem: PhotosPickerItem? = nil {

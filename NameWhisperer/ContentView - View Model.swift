@@ -12,41 +12,41 @@ import SwiftUI
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
         @Published private(set) var users: [User] = []
-        @Published var selectedItem: PhotosPickerItem?
+        @Published var selectedItem: PhotosPickerItem? = nil {
+            didSet {
+                Task { @MainActor in
+                    loadTransferable()
+                }
+            }
+        }
+        @Published var showRenameScreen = false
+        @Published var newName: String = "Unknown"
         
+        private var data: Data = Data()
         
-        func renameLastItemWith(name: String) {
-            guard let last = popLast() else { return }
-            
-            let lastAddedWithNameUpdate = User(name: name, photo: last.photo)
-            
-            append(user: lastAddedWithNameUpdate)
+        public func setNewName() -> Void {
+            self.users.append(User(name: self.newName, photo: UserImage(data: self.data)))
         }
         
-        func append(user: User) {
-            self.users.append(user)
-            
-        }
-        
-        func popLast() -> User? {
-            return users.popLast() ?? nil
-        }
-        
-        func loadTransferable() -> Void {
-            guard let imageSelection = self.selectedItem else { return }
-            
-            imageSelection.loadTransferable(type: Data.self) { result in
-                DispatchQueue.main.async {
+        private func loadTransferable() -> Void {
+            DispatchQueue.main.async {
+                guard let imageSelection = self.selectedItem else { return }
+                
+                imageSelection.loadTransferable(type: Data.self) { result in
                     switch result {
                     case .success(let data):
                         if let data = data {
-                            self.users.append(User(name: "New user", photo: UserImage(data: data)))
+                            Task { @MainActor in
+                                self.showRenameScreen = true
+                                self.data = data
+                            }
                         } else {
                             print("data is nil")
                         }
                     case .failure(let failure):
                         fatalError("\(failure)")
                     }
+                    
                 }
             }
         }

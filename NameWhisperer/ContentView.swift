@@ -10,9 +10,7 @@ import PhotosUI
 
 struct ContentView: View {
     @StateObject var viewModel = ViewModel()
-    
-    // TODO: ENABLE IMAGE NAME EDIT
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -28,8 +26,8 @@ struct ContentView: View {
                     }
                     
                 }
-                
             }
+            
             
             .navigationTitle("Photos")
             .toolbar {
@@ -37,17 +35,17 @@ struct ContentView: View {
                     Text("Pick photo")
                 }
             }
-            .onChange(of: viewModel.selectedItem) { newValue in
-                viewModel.loadTransferable()
-            }
-            .onChange(of: viewModel.users) { newValue in
-                viewModel.renameLastItemWith(name: "new name")
-                
-            }
             
         }
-        
-        
+        .alert("Rename", isPresented: $viewModel.showRenameScreen) {
+            TextField(text: $viewModel.newName) {
+                Text("Enter a name")
+            }
+            Button("OK") {
+                viewModel.setNewName()
+            }
+            
+        }  
     }
 }
 

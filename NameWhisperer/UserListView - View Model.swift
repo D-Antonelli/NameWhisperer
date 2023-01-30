@@ -12,41 +12,80 @@ import SwiftUI
 extension UserListView {
     @MainActor class ViewModel: ObservableObject {
         @Published private(set) var users: [User] = []
-        @Published var selectedItem: PhotosPickerItem? = nil {
+        @Published private(set) var imageState: ImageState = .empty
+        
+        @Published var imageSelection: PhotosPickerItem? = nil {
             didSet {
-                Task { @MainActor in
-                    loadTransferable()
+                if let imageSelection {
+                    let progress = loadTransferable(from: imageSelection)
+                    imageState = .loading(progress)
+                } else {
+                    imageState = .empty
                 }
             }
         }
-        @Published var showRenameScreen = false
-        @Published var newName: String = "Unknown"
         
-        private var data: Data = Data()
+        @Published public var newName: String = "Unknown"
+        @Published public var showRenamePrompt = false
         
-        public func setNewName() -> Void {
-            self.users.append(User(name: self.newName, photo: UserImage(data: self.data)))
+        private var image: Image?
+        
+        
+        enum ImageState {
+            case empty
+            case loading(Progress)
+            case success
+            case failure(Error)
         }
         
-        private func loadTransferable() -> Void {
-            DispatchQueue.main.async {
-                guard let imageSelection = self.selectedItem else { return }
+        enum TransferError: Error {
+            case importFailed
+        }
+        
+        
+        struct UserImage: Transferable {
+            let image: Image
+            
+            static var transferRepresentation: some TransferRepresentation {
+                DataRepresentation(importedContentType: .image) { data in
+                    guard let uiImage = UIImage(data: data) else {
+                        throw TransferError.importFailed
+                    }
+                    let image = Image(uiImage: uiImage)
+                    return UserImage(image: image)
+                }
+            }
+            
+        }
+        
+        
+        public func save() -> Void {
+            self.users.append(User(name: self.newName, image: self.image!))
+        }
+        
+        
+        private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
+            return imageSelection.loadTransferable(type: UserImage.self) { result in
+                DispatchQueue.main.async {
+                    guard imageSelection == self.imageSelection else {
+                        print("Failed to get the selected item.")
+                        return
+                    }
+                }
                 
-                imageSelection.loadTransferable(type: Data.self) { result in
-                    switch result {
-                    case .success(let data):
-                        if let data = data {
-                            Task { @MainActor in
-                                self.showRenameScreen = true
-                                self.data = data
-                            }
-                        } else {
-                            print("data is nil")
-                        }
-                    case .failure(let failure):
-                        fatalError("\(failure)")
+                switch result {
+                case .success(let userImage?):
+                    Task { @MainActor in
+                        self.imageState = .success
+                        self.image = userImage.image
+                        self.showRenamePrompt = true
                     }
                     
+                case .success(nil):
+                    self.imageState = .empty
+                    
+                case .failure(let error):
+                    self.imageState = .failure(error)
                 }
             }
         }

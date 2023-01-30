@@ -8,21 +8,16 @@
 import Foundation
 import SwiftUI
 
-struct User: Hashable {
+struct User: Hashable, Equatable {
     let id = UUID()
     let name: String
-    let photo: UserImage
-}
-
-
-struct UserImage: Hashable {
-    let data: Data
+    let image: Image
     
-    var view: Image {
-        let uiImage = UIImage(data: data) ?? UIImage()
-        return Image(uiImage: uiImage)
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
+
 
 
 

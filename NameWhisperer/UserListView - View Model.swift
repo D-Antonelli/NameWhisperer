@@ -11,8 +11,9 @@ import SwiftUI
 
 extension UserListView {
     @MainActor class ViewModel: ObservableObject {
-        @Published private(set) var users: [User] = []
+//        @Published private(set) var users: [User] = []
         @Published private(set) var imageState: ImageState = .empty
+        @Published private(set) var viewModelState: ViewModelState = .loading
         
         @Published var imageSelection: PhotosPickerItem? = nil {
             didSet {
@@ -26,10 +27,18 @@ extension UserListView {
         }
         
         @Published public var newName: String = "Unknown"
-        @Published public var showRenamePrompt = false
+       
         
         private var image: Image?
         
+        enum ViewModelState {
+            case loading
+            case failure
+            case empty
+            case hasUsers([User])
+            case pickingImage
+            case namingImage(Bool)
+        }
         
         enum ImageState {
             case empty
@@ -58,9 +67,27 @@ extension UserListView {
             
         }
         
-        
+        public func onViewAppear() {
+            // if fetch successful
+            viewModelState = .empty
+            // else
+            //
+        }
+    
         public func save() -> Void {
-            self.users.append(User(name: self.newName, image: self.image!))
+            var users: [User] = []
+            switch self.viewModelState {
+            case .hasUsers(let currentUsers):
+                users.append(contentsOf: currentUsers)
+            default:
+                break
+            }
+            users.append(User(name: self.newName, image: self.image!))
+            self.viewModelState = .hasUsers(users)
+        }
+        
+        public func pickImage() -> Void {
+            self.viewModelState = .pickingImage
         }
         
         
@@ -78,7 +105,7 @@ extension UserListView {
                     Task { @MainActor in
                         self.imageState = .success
                         self.image = userImage.image
-                        self.showRenamePrompt = true
+                        self.viewModelState = .namingImage(true)
                     }
                     
                 case .success(nil):

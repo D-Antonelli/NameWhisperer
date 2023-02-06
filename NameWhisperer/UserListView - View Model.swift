@@ -11,7 +11,6 @@ import SwiftUI
 
 extension UserListView {
     @MainActor class ViewModel: ObservableObject {
-//        @Published private(set) var users: [User] = []
         @Published private(set) var imageState: ImageState = .empty
         @Published private(set) var viewModelState: ViewModelState = .loading
         
@@ -27,8 +26,8 @@ extension UserListView {
         }
         
         @Published public var newName: String = "Unknown"
-       
         
+        private var users: [User] = []
         private var image: Image?
         
         enum ViewModelState {
@@ -68,14 +67,10 @@ extension UserListView {
         }
         
         public func onViewAppear() {
-            // if fetch successful
             viewModelState = .empty
-            // else
-            //
         }
     
         public func save() -> Void {
-            var users: [User] = []
             switch self.viewModelState {
             case .hasUsers(let currentUsers):
                 users.append(contentsOf: currentUsers)

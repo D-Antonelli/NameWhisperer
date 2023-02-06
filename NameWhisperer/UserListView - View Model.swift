@@ -26,6 +26,7 @@ extension UserListView {
         }
         
         @Published public var newName: String = "Unknown"
+        @Published public var showImagePicker = false
         
         private var users: [User] = []
         private var image: Image?
@@ -83,6 +84,7 @@ extension UserListView {
         
         public func pickImage() -> Void {
             self.viewModelState = .pickingImage
+            self.showImagePicker = true
         }
         
         

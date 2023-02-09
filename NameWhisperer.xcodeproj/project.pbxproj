@@ -16,6 +16,7 @@
 		8A5A420C2975A41C0064D12D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5A420B2975A41C0064D12D /* ContentView.swift */; };
 		8A5A420E2975A41D0064D12D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A5A420D2975A41D0064D12D /* Assets.xcassets */; };
 		8A5A42112975A41D0064D12D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A5A42102975A41D0064D12D /* Preview Assets.xcassets */; };
+		8ACCA1552994ED4B00618C00 /* FileManager - DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACCA1542994ED4B00618C00 /* FileManager - DocumentsDirectory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		8A5A420B2975A41C0064D12D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A5A420D2975A41D0064D12D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A5A42102975A41D0064D12D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8ACCA1542994ED4B00618C00 /* FileManager - DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager - DocumentsDirectory.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				8A5A420B2975A41C0064D12D /* ContentView.swift */,
 				8A2463F92987CC860058C003 /* UserListView.swift */,
 				8A2FD44D297EA2220067CC6F /* UserListView - View Model.swift */,
+				8ACCA1542994ED4B00618C00 /* FileManager - DocumentsDirectory.swift */,
 				8A0ED5C12979571700F084E2 /* User - Model.swift */,
 				8A4A1C1B29827A69003F4DC4 /* UserRepository */,
 				8A5A420D2975A41D0064D12D /* Assets.xcassets */,
@@ -160,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ACCA1552994ED4B00618C00 /* FileManager - DocumentsDirectory.swift in Sources */,
 				8A5A420C2975A41C0064D12D /* ContentView.swift in Sources */,
 				8A4A1C1729827898003F4DC4 /* UserRepository - Interface.swift in Sources */,
 				8A4A1C1A29827A2B003F4DC4 /* UserRepository.swift in Sources */,

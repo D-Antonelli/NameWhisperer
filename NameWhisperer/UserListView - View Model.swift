@@ -33,6 +33,10 @@ extension UserListView {
         
         private var jpegImage: Data?
         
+        init() {
+            self.loadUsers()
+        }
+        
         enum ViewModelState {
             case loading
             case failure
@@ -70,37 +74,36 @@ extension UserListView {
         }
         
         public func onViewAppear() {
-            // list = loadUsers()
-            // load users from device. If list is empty,
-            viewModelState = .empty
-            
-            // if there are items in list,
-            // viewModelState = .hasUsers(list)
+            if(self.users.isEmpty) {
+                viewModelState = .empty
+            } else {
+                viewModelState = .hasUsers(self.users)
+            }
         }
     
         public func save() -> Void {
-            switch self.viewModelState {
-            case .hasUsers(let currentUsers):
-                users.append(contentsOf: currentUsers)
-                print("\(users)");
-            default:
-                break
-            }
-            if let jpegImage = self.jpegImage {
+            if let jpegImage = self.jpegImage, UIImage(data: jpegImage) != nil {
                 users.append(User(name: self.newName, jpegImage: jpegImage))
+                self.saveToDirectory()
                 self.viewModelState = .hasUsers(users)
             } else {
                 self.viewModelState = .failure
             }
         }
         
+        private func loadUsers() {
+            do {
+                let data = try Data(contentsOf: savePath)
+                self.users = try JSONDecoder().decode([User].self, from: data)
+            } catch {
+                self.users = []
+            }
+        }
+        
+        
         private func saveToDirectory() {
-            // TODO: Convert users into json
             do {
                 let data = try JSONEncoder().encode(users)
-//                json = String(data: data, encoding: .utf8)
-                
-                // then, save
                 try data.write(to: savePath, options: [.atomic, .completeFileProtection])
             } catch {
                 print("\(error)")

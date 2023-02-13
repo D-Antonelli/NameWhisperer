@@ -13,8 +13,8 @@ struct User: Hashable, Equatable {
     let name: String
     let jpegImage: Data
     
-    var image: Image {
-        guard let uiImage = UIImage(data: jpegImage) else { return <#default value#> }
+    var image: Image? {
+        guard let uiImage = UIImage(data: jpegImage) else { return nil }
         return Image(uiImage: uiImage)
     }
     
@@ -40,7 +40,7 @@ extension User: Encodable {
 
 extension User: Decodable {
     init(from decoder: Decoder) throws {
-        var values = try decoder.container(keyedBy: CodingKeys.self)
+        let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decode(UUID.self, forKey: .id)
         name = try values.decode(String.self, forKey: .name)
         jpegImage = try values.decode(Data.self, forKey: .jpegImage)

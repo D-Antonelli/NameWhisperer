@@ -14,6 +14,7 @@
 		8A5A420C2975A41C0064D12D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5A420B2975A41C0064D12D /* ContentView.swift */; };
 		8A5A420E2975A41D0064D12D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A5A420D2975A41D0064D12D /* Assets.xcassets */; };
 		8A5A42112975A41D0064D12D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A5A42102975A41D0064D12D /* Preview Assets.xcassets */; };
+		8A8EFFB529A37DA8006ADFE5 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8EFFB429A37DA8006ADFE5 /* ImagePicker.swift */; };
 		8ACCA1552994ED4B00618C00 /* FileManager - DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACCA1542994ED4B00618C00 /* FileManager - DocumentsDirectory.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		8A5A420B2975A41C0064D12D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A5A420D2975A41D0064D12D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A5A42102975A41D0064D12D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8A8EFFB429A37DA8006ADFE5 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8ACCA1542994ED4B00618C00 /* FileManager - DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager - DocumentsDirectory.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +65,7 @@
 				8A5A42092975A41C0064D12D /* NameWhispererApp.swift */,
 				8A5A420B2975A41C0064D12D /* ContentView.swift */,
 				8A2463F92987CC860058C003 /* UserListView.swift */,
+				8A8EFFB429A37DA8006ADFE5 /* ImagePicker.swift */,
 				8A2FD44D297EA2220067CC6F /* UserListView - View Model.swift */,
 				8ACCA1542994ED4B00618C00 /* FileManager - DocumentsDirectory.swift */,
 				8A0ED5C12979571700F084E2 /* User - Model.swift */,
@@ -152,6 +155,7 @@
 				8ACCA1552994ED4B00618C00 /* FileManager - DocumentsDirectory.swift in Sources */,
 				8A5A420C2975A41C0064D12D /* ContentView.swift in Sources */,
 				8A2FD44E297EA2220067CC6F /* UserListView - View Model.swift in Sources */,
+				8A8EFFB529A37DA8006ADFE5 /* ImagePicker.swift in Sources */,
 				8A5A420A2975A41C0064D12D /* NameWhispererApp.swift in Sources */,
 				8A2463FA2987CC860058C003 /* UserListView.swift in Sources */,
 				8A0ED5C22979571700F084E2 /* User - Model.swift in Sources */,
@@ -287,7 +291,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access to photo library to save";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need the camera permission";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -320,7 +324,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access to photo library to save";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need the camera permission";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

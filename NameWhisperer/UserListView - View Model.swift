@@ -67,6 +67,13 @@ extension UserListView {
                         throw TransferError.importFailed
                     }
                     let data = uiImage.jpegData(compressionQuality: 0.8)
+                    
+                    let source = CGImageSourceCreateWithData(data! as CFData, nil)
+                    if let properties = CGImageSourceCopyPropertiesAtIndex(source!, 0, nil) as? [CFString: Any] {
+                        print("properties: \(properties)")
+                    }
+                
+            
                     return UserImage(jpeg: data)
                 }
             }
@@ -80,6 +87,11 @@ extension UserListView {
                 viewModelState = .hasUsers(self.users)
             }
         }
+        
+        public func pickImage() -> Void {
+            self.viewModelState = .pickingImage
+            self.showImagePicker = true
+        }
     
         public func save() -> Void {
             if let jpegImage = self.jpegImage, UIImage(data: jpegImage) != nil {
@@ -89,31 +101,6 @@ extension UserListView {
             } else {
                 self.viewModelState = .failure
             }
-        }
-        
-        private func loadUsers() {
-            do {
-                let data = try Data(contentsOf: savePath)
-                self.users = try JSONDecoder().decode([User].self, from: data)
-            } catch {
-                self.users = []
-            }
-        }
-        
-        
-        private func saveToDirectory() {
-            do {
-                let data = try JSONEncoder().encode(users)
-                try data.write(to: savePath, options: [.atomic, .completeFileProtection])
-            } catch {
-                print("\(error)")
-            }
-            
-        }
-        
-        public func pickImage() -> Void {
-            self.viewModelState = .pickingImage
-            self.showImagePicker = true
         }
         
         
@@ -141,6 +128,26 @@ extension UserListView {
                     self.imageState = .failure(error)
                 }
             }
+        }
+        
+        private func loadUsers() {
+            do {
+                let data = try Data(contentsOf: savePath)
+                self.users = try JSONDecoder().decode([User].self, from: data)
+            } catch {
+                self.users = []
+            }
+        }
+        
+        
+        private func saveToDirectory() {
+            do {
+                let data = try JSONEncoder().encode(users)
+                try data.write(to: savePath, options: [.atomic, .completeFileProtection])
+            } catch {
+                print("\(error)")
+            }
+            
         }
     }
 }
